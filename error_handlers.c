@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 14:26:03 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/08/27 14:43:35 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/08/27 16:07:14 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_error(void)
 
 int	validate1(char **strs)
 {
+	int		i;
 	int		len;
 	char	*str;
 
@@ -60,6 +61,9 @@ int	validate1(char **strs)
 		str = strs[len++];
 		if (ft_atol(str) < INT_MIN || ft_atol(str) > INT_MAX || !isvalid(str))
 		{
+			i = 0;
+			while (strs[i])
+				free(strs[i++]);
 			free(strs);
 			ft_error();
 		}
@@ -75,6 +79,9 @@ int	*validate2(char **strs, int len)
 	nums = malloc(len * sizeof(int));
 	if (!nums)
 	{
+		i = 0;
+		while (strs[i])
+			free(strs[i++]);
 		free(strs);
 		ft_error();
 	}
@@ -84,6 +91,9 @@ int	*validate2(char **strs, int len)
 	if (!isdistinct(nums))
 	{
 		free(nums);
+		i = 0;
+		while (strs[i])
+			free(strs[i++]);
 		free(strs);
 		ft_error();
 	}

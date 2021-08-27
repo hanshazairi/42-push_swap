@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/08/27 14:55:22 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/08/27 15:56:20 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	main(int argc, char **argv)
 		ft_putchar_fd('\n', 1);
 	}
 	free(nums);
+	i = 0;
+	while (strs[i])
+		free(strs[i++]);
 	free(strs);
 	return (0);
 }
