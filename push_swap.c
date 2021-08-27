@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/08/27 15:56:20 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/08/27 17:33:25 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	len = validate1(strs);
 	nums = validate2(strs, len);
 	i = 0;
-	while (nums[i])
+	while (i < len)
 	{
 		ft_putnbr_fd(nums[i++], 1);
 		ft_putchar_fd('\n', 1);

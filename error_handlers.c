@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 14:26:03 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/08/27 16:07:14 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/08/27 17:06:15 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ static int	isvalid(char *str)
 	return (1);
 }
 
-static int	isdistinct(int *nums)
+static int	isdistinct(int *nums, int len)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (nums[i])
+	while (i < len - 1)
 	{
 		j = i + 1;
-		while (nums[j])
+		while (j < len)
 			if (nums[i] == nums[j++])
 				return (0);
 		++i;
@@ -88,7 +88,7 @@ int	*validate2(char **strs, int len)
 	i = -1;
 	while (++i < len)
 		nums[i] = ft_atol(strs[i]);
-	if (!isdistinct(nums))
+	if (!isdistinct(nums, len))
 	{
 		free(nums);
 		i = 0;
