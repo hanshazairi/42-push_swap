@@ -11,7 +11,7 @@ $(NAME): $(OBJECTS) libft
 	gcc -c -Wall -Wextra -Werror $?
 
 libft:
-	make -C libft
+	make bonus -C libft
 
 clean:
 	rm -f $(OBJECTS)
