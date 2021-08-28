@@ -6,31 +6,49 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 00:25:53 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/08/28 00:41:35 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/08/28 17:15:52 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
-static void	split(t_list *head, t_list **a, t_list **b)
+static void	split(t_list *stack, t_list **a, t_list **b)
 {
-	t_list	*half;
+	t_list	*current;
 	t_list	*tmp;
 
-	half = head;
-	tmp = head->next;
+	current = stack;
+	tmp = stack->next;
 	while (tmp)
 	{
 		tmp = tmp->next;
 		if (tmp)
 		{
-			half = half->next;
+			current = current->next;
 			tmp = tmp->next;
 		}
 	}
-	*a = head;
-	*b = half->next;
-	half->next = 0;
+	*a = stack;
+	*b = current->next;
+	current->next = 0;
+}
+
+static void	reverse(t_list **stack)
+{
+	t_list	*current;
+	t_list	*next;
+	t_list	*prev;
+
+	current = *stack;
+	prev = 0;
+	while (current)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	*stack = prev;
 }
 
 static t_list	*sort(t_list *a, t_list *b)
@@ -65,6 +83,8 @@ void	ft_mergesort(t_list **stack, int depth)
 	if (!head || !head->next)
 		return ;
 	split(head, &a, &b);
+	if (!depth)
+		reverse(&a);
 	ft_mergesort(&a, ++depth);
 	ft_mergesort(&b, ++depth);
 	*stack = sort(a, b);
