@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/08/28 00:42:21 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/08/31 00:39:41 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	ft_error(void);
 int		validate1(char **strs);
 int		*validate2(char **strs, int len);
-void	ft_mergesort(t_list **stack, int depth);
+void	ft_mergesort(t_list **stack, int branch);
 
 int	main(int argc, char **argv)
 {
