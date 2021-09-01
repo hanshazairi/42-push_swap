@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/01 23:27:25 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/01 23:54:53 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,10 @@ int		validate1(char **strs);
 int		*validate2(char **strs, int len);
 void	ft_mergesort(t_list **stack, int depth, int branch);
 
-int	main(int argc, char **argv)
+static void	cleanup(int	*nums, t_list *stack, char **strs, int len)
 {
-	int		len;
-	int		*nums;
-	char	**strs;
-	t_list	*stack;
 	t_list	*tmp;
 
-	if (argc != 2)
-		ft_error();
-	strs = ft_split(argv[1], ' ');
-	len = validate1(strs);
-	nums = validate2(strs, len);
-	while (len--)
-		ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
-	ft_mergesort(&stack, 0, -1);
 	free(nums);
 	while (stack)
 	{
@@ -44,5 +32,24 @@ int	main(int argc, char **argv)
 	while (strs[++len])
 		free(strs[len]);
 	free(strs);
+}
+
+int	main(int argc, char **argv)
+{
+	int		len;
+	int		*nums;
+	char	**strs;
+	t_list	*stack;
+
+	if (argc != 2)
+		ft_error();
+	strs = ft_split(argv[1], ' ');
+	len = validate1(strs);
+	nums = validate2(strs, len);
+	stack = 0;
+	while (len--)
+		ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
+	ft_mergesort(&stack, 0, -1);
+	cleanup(nums, stack, strs, len);
 	return (0);
 }
