@@ -1,39 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorter_utils.c                                     :+:      :+:    :+:   */
+/*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:38:36 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/01 18:18:35 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/02 00:52:48 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include "libft/libft.h"
-
-int	issorted(t_list *a, t_list *b)
-{
-	long	min;
-
-	min = (long)INT_MIN - 1;
-	while (a)
-	{
-		if (min > *((int *)a->content))
-			return (0);
-		min = *((int *)a->content);
-		a = a->next;
-	}
-	while (b)
-	{
-		if (min > *((int *)b->content))
-			return (0);
-		min = *((int *)b->content);
-		b = b->next;
-	}
-	return (1);
-}
 
 int	stack_min(t_list *stack)
 {
@@ -112,7 +89,7 @@ void	split(t_list *stack, t_list **a, t_list **b, int depth)
 	if (depth == 0)
 	{
 		*a = tmp->next;
-		tmp->next = 0; // revisit
+		tmp->next = 0;
 		*b = reverse(stack);
 		putcmd("p", 1, ft_lstsize(*b));
 	}
@@ -120,6 +97,6 @@ void	split(t_list *stack, t_list **a, t_list **b, int depth)
 	{
 		*a = stack;
 		*b = tmp->next;
-		tmp->next = 0; // revisit
+		tmp->next = 0;
 	}
 }
