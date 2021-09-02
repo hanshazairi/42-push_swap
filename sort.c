@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:34:52 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/02 00:50:11 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/02 13:21:59 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static t_list	*sort3(t_list *stack, int depth, int branch)
 	num1 = *((int *)stack->content);
 	num2 = *((int *)(stack->next)->content);
 	num3 = *((int *)((stack->next)->next)->content);
+	ret = stack;
 	if (num1 == stack_min(stack) && num2 == stack_max(stack))
 		ret = sort_132(stack, depth, branch);
 	else if (num2 == stack_min(stack) && num3 == stack_max(stack))
