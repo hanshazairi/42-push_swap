@@ -8,8 +8,7 @@ $(NAME): $(OBJECTS) libft
 	gcc -o $@ $(OBJECTS) -Llibft -lft
 
 %.o: %.c
-	# gcc -c -Wall -Wextra -Werror $?
-	gcc -c $?
+	gcc -c -Wall -Wextra -Werror $?
 
 libft:
 	make bonus -C libft
