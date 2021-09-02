@@ -6,12 +6,13 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:34:52 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/02 13:21:59 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/02 14:13:49 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
+int		issorted(t_list *stack);
 int		stack_min(t_list *stack);
 int		stack_max(t_list *stack);
 void	putcmd(char *str, int branch, int n);
@@ -22,21 +23,6 @@ t_list	*sort_213(t_list *stack, int depth, int branch);
 t_list	*sort_231(t_list *stack, int depth, int branch);
 t_list	*sort_312(t_list *stack, int depth, int branch);
 t_list	*sort_321(t_list *stack, int depth, int branch);
-
-static int	issorted(t_list *stack)
-{
-	int	min;
-
-	min = *((int *)stack->content);
-	while (stack)
-	{
-		if (min > *((int *)stack->content))
-			return (0);
-		min = *((int *)stack->content);
-		stack = stack->next;
-	}
-	return (1);
-}
 
 static t_list	*sort2(t_list *stack, int branch)
 {
@@ -68,10 +54,9 @@ static t_list	*sort3(t_list *stack, int depth, int branch)
 	return (ret);
 }
 
-static t_list	*sort(t_list *a, t_list *b, int depth, int branch)
+static t_list	*subsort(t_list *a, t_list *b, int depth, int branch)
 {
 	int		i;
-	t_list	*ret;
 
 	if (!a)
 	{
@@ -84,33 +69,39 @@ static t_list	*sort(t_list *a, t_list *b, int depth, int branch)
 		}
 		return (b);
 	}
-	if (!b)
+	else
 	{
 		putcmd("r", branch, ft_lstsize(a));
 		return (a);
 	}
+}
+
+static t_list	*sort(t_list *a, t_list *b, int depth, int branch)
+{
+	t_list	*ret;
+
+	if (!a || !b)
+		return (subsort(a, b, depth, branch));
 	if (*((int *)a->content) < *((int *)b->content))
 	{
 		putcmd("r", branch, 1);
 		ret = a;
 		ret->next = sort(a->next, b, depth, branch);
+		return (ret);
+	}
+	if (depth == 1)
+	{
+		putcmd("p", branch, 1);
+		putcmd("r", branch, 1);
 	}
 	else
 	{
-		if (depth == 1)
-		{
-			putcmd("p", branch, 1);
-			putcmd("r", branch, 1);
-		}
-		else
-		{
-			putcmd("p", -branch, ft_lstsize(a));
-			putcmd("r", branch, 1);
-			putcmd("p", branch, ft_lstsize(a));
-		}
-		ret = b;
-		ret->next = sort(a, b->next, depth, branch);
+		putcmd("p", -branch, ft_lstsize(a));
+		putcmd("r", branch, 1);
+		putcmd("p", branch, ft_lstsize(a));
 	}
+	ret = b;
+	ret->next = sort(a, b->next, depth, branch);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/01 23:54:53 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/02 14:14:31 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,21 @@ static void	cleanup(int	*nums, t_list *stack, char **strs, int len)
 	while (strs[++len])
 		free(strs[len]);
 	free(strs);
+}
+
+int	issorted(t_list *stack)
+{
+	int	min;
+
+	min = *((int *)stack->content);
+	while (stack)
+	{
+		if (min > *((int *)stack->content))
+			return (0);
+		min = *((int *)stack->content);
+		stack = stack->next;
+	}
+	return (1);
 }
 
 int	main(int argc, char **argv)
