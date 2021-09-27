@@ -6,11 +6,12 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:38:36 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/02 00:52:48 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/27 20:02:14 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+#include "push_swap.h"
 
 int	stack_min(t_list *stack)
 {
@@ -44,59 +45,13 @@ int	stack_max(t_list *stack)
 	return (max);
 }
 
-void	putcmd(char *str, int branch, int n)
+int	issorted(t_list *stack)
 {
-	char	c;
-
-	c = 'a';
-	if (branch == 1)
-		c = 'b';
-	while (n--)
+	while (stack->next)
 	{
-		ft_putstr_fd(str, 1);
-		ft_putchar_fd(c, 1);
-		ft_putchar_fd('\n', 1);
+		if (*((int *)stack->content) > *((int *)stack->next->content))
+			return (0);
+		stack = stack->next;
 	}
-}
-
-t_list	*reverse(t_list *stack)
-{
-	t_list	*next;
-	t_list	*prev;
-
-	prev = 0;
-	while (stack)
-	{
-		next = stack->next;
-		stack->next = prev;
-		prev = stack;
-		stack = next;
-	}
-	return (prev);
-}
-
-void	split(t_list *stack, t_list **a, t_list **b, int depth)
-{
-	int		half;
-	t_list	*tmp;
-
-	tmp = stack;
-	half = ft_lstsize(stack) / 2;
-	if (ft_lstsize(stack) % 2 == 1 && depth > 0)
-		half += 1;
-	while (--half)
-		tmp = tmp->next;
-	if (depth == 0)
-	{
-		*a = tmp->next;
-		tmp->next = 0;
-		*b = reverse(stack);
-		putcmd("p", 1, ft_lstsize(*b));
-	}
-	else
-	{
-		*a = stack;
-		*b = tmp->next;
-		tmp->next = 0;
-	}
+	return (1);
 }

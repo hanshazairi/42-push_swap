@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/02 14:14:31 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/27 20:01:30 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include <stdlib.h>
 #include "libft/libft.h"
+#include "push_swap.h"
 
-void	ft_error(void);
-int		validate1(char **strs);
-int		*validate2(char **strs, int len);
-void	ft_mergesort(t_list **stack, int depth, int branch);
+static int	isint(char *str)
+{
+	int	i;
 
-static void	cleanup(int	*nums, t_list *stack, char **strs, int len)
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		++i;
+	while (str[i])
+		if (!ft_isdigit(str[i++]))
+			return (0);
+	if (ft_atol(str) < INT_MIN || ft_atol(str) > INT_MAX)
+		return (0);
+	return (1);
+}
+
+static void	cleanup(t_list *stack, int *nums)
 {
 	t_list	*tmp;
 
@@ -29,42 +41,35 @@ static void	cleanup(int	*nums, t_list *stack, char **strs, int len)
 		free(stack);
 		stack = tmp;
 	}
-	while (strs[++len])
-		free(strs[len]);
-	free(strs);
 }
 
-int	issorted(t_list *stack)
+static void	error(t_list *stack, int *nums)
 {
-	int	min;
-
-	min = *((int *)stack->content);
-	while (stack)
-	{
-		if (min > *((int *)stack->content))
-			return (0);
-		min = *((int *)stack->content);
-		stack = stack->next;
-	}
-	return (1);
+	ft_putstr_fd("Error\n", 2);
+	cleanup(stack, nums);
+	exit(1);
 }
 
 int	main(int argc, char **argv)
 {
-	int		len;
 	int		*nums;
-	char	**strs;
 	t_list	*stack;
 
-	if (argc != 2)
-		ft_error();
-	strs = ft_split(argv[1], ' ');
-	len = validate1(strs);
-	nums = validate2(strs, len);
-	stack = 0;
-	while (len--)
-		ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
-	ft_mergesort(&stack, 0, -1);
-	cleanup(nums, stack, strs, len);
+	if (argc > 1)
+	{
+		nums = malloc(sizeof(int) * (argc - 1));
+		if (!nums)
+			return (0);
+		while (--argc)
+		{
+			if (!isint(argv[argc]))
+				error(stack, nums);
+			nums[argc - 1] = ft_atoi(argv[argc]);
+			ft_lstadd_front(&stack, ft_lstnew(&nums[argc - 1]));
+		}
+		if (!issorted(stack))
+			sort(&stack);
+		cleanup(stack, nums);
+	}
 	return (0);
 }

@@ -6,130 +6,89 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:34:52 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/02 14:13:49 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/28 00:02:35 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+#include "push_swap.h"
 
-int		issorted(t_list *stack);
-int		stack_min(t_list *stack);
-int		stack_max(t_list *stack);
-void	putcmd(char *str, int branch, int n);
-void	split(t_list *stack, t_list **a, t_list **b, int depth);
-t_list	*reverse(t_list *stack);
-t_list	*sort_132(t_list *stack, int depth, int branch);
-t_list	*sort_213(t_list *stack, int depth, int branch);
-t_list	*sort_231(t_list *stack, int depth, int branch);
-t_list	*sort_312(t_list *stack, int depth, int branch);
-t_list	*sort_321(t_list *stack, int depth, int branch);
-
-static t_list	*sort2(t_list *stack, int branch)
+static void	sort_3(t_list **stack)
 {
-	putcmd("s", branch, 1);
-	return (reverse(stack));
+	const int	num_1 = *((int *)(*stack)->content);
+	const int	num_2 = *((int *)(*stack)->next->content);
+	const int	num_3 = *((int *)(*stack)->next->next->content);
+
+	if (num_1 == stack_min(*stack) && num_2 == stack_max(*stack))
+		sort_132(stack);
+	else if (num_2 == stack_min(*stack) && num_3 == stack_max(*stack))
+		sort_213(stack);
+	else if (num_3 == stack_min(*stack) && num_2 == stack_max(*stack))
+		sort_231(stack);
+	else if (num_2 == stack_min(*stack) && num_1 == stack_max(*stack))
+		sort_312(stack);
+	else
+		sort_321(stack);
 }
 
-static t_list	*sort3(t_list *stack, int depth, int branch)
+static void	sort_big(t_list **stack_a)
 {
-	int		num1;
-	int		num2;
-	int		num3;
-	t_list	*ret;
+	int		a;
+	int		b;
+	t_list	*stack_b;
 
-	num1 = *((int *)stack->content);
-	num2 = *((int *)(stack->next)->content);
-	num3 = *((int *)((stack->next)->next)->content);
-	ret = stack;
-	if (num1 == stack_min(stack) && num2 == stack_max(stack))
-		ret = sort_132(stack, depth, branch);
-	else if (num2 == stack_min(stack) && num3 == stack_max(stack))
-		ret = sort_213(stack, depth, branch);
-	else if (num3 == stack_min(stack) && num2 == stack_max(stack))
-		ret = sort_231(stack, depth, branch);
-	else if (num2 == stack_min(stack) && num1 == stack_max(stack))
-		ret = sort_312(stack, depth, branch);
-	else if (num3 == stack_min(stack) && num1 == stack_max(stack))
-		ret = sort_321(stack, depth, branch);
-	return (ret);
-}
-
-static t_list	*subsort(t_list *a, t_list *b, int depth, int branch)
-{
-	int		i;
-
-	if (!a)
+	while (ft_lstsize(*stack_a) > 3)
 	{
-		i = ft_lstsize(b);
+		px(stack_a, &stack_b);
+		ft_putendl_fd("pb", 1);
+	}
+	if (!issorted(*stack_a))
+		sort_3(stack_a);
+	while (ft_lstsize(stack_b))
+	{
+		a = 0;
+		b = 0;
+		find_min_rotate(*stack_a, stack_b, &a, &b);
+		rotate(stack_a, &stack_b, a, b);
+		px(&stack_b, stack_a);
+		ft_putendl_fd("pa", 1);
+	}
+}
+
+static void	sort_final(t_list **stack)
+{
+	int	i;
+
+	i = stack_idx_minmax(*stack, stack_min(*stack));
+	if (i <= (ft_lstsize(*stack) + 1) / 2)
+	{
 		while (i--)
 		{
-			if (depth == 1)
-				putcmd("p", branch, 1);
-			putcmd("r", branch, 1);
+			rx(stack);
+			ft_putendl_fd("ra", 1);
 		}
-		return (b);
 	}
 	else
 	{
-		putcmd("r", branch, ft_lstsize(a));
-		return (a);
+		i = ft_lstsize(*stack) - i;
+		while (i--)
+		{
+			rrx(stack);
+			ft_putendl_fd("rra", 1);
+		}
 	}
 }
 
-static t_list	*sort(t_list *a, t_list *b, int depth, int branch)
+void	sort(t_list **stack)
 {
-	t_list	*ret;
-
-	if (!a || !b)
-		return (subsort(a, b, depth, branch));
-	if (*((int *)a->content) < *((int *)b->content))
-	{
-		putcmd("r", branch, 1);
-		ret = a;
-		ret->next = sort(a->next, b, depth, branch);
-		return (ret);
-	}
-	if (depth == 1)
-	{
-		putcmd("p", branch, 1);
-		putcmd("r", branch, 1);
-	}
-	else
-	{
-		putcmd("p", -branch, ft_lstsize(a));
-		putcmd("r", branch, 1);
-		putcmd("p", branch, ft_lstsize(a));
-	}
-	ret = b;
-	ret->next = sort(a, b->next, depth, branch);
-	return (ret);
-}
-
-void	ft_mergesort(t_list **stack, int depth, int branch)
-{
-	int		othbranch;
-	t_list	*a;
-	t_list	*b;
-
-	if (issorted(*stack))
-		return ;
 	if (ft_lstsize(*stack) == 2)
-		*stack = sort2(*stack, branch);
-	if (ft_lstsize(*stack) == 3)
-		*stack = sort3(*stack, depth, branch);
-	if (ft_lstsize(*stack) == 2 || ft_lstsize(*stack) == 3)
-		return ;
-	split(*stack, &a, &b, depth++);
-	othbranch = branch;
-	if (depth == 1)
-		othbranch = -branch;
-	ft_mergesort(&a, depth, branch);
-	if (depth > 1)
-		putcmd("r", branch, ft_lstsize(a));
-	ft_mergesort(&b, depth, othbranch);
-	if (depth > 1)
-		putcmd("rr", branch, ft_lstsize(a));
-	*stack = sort(a, b, depth, branch);
-	if (depth > 1)
-		putcmd("rr", branch, ft_lstsize(*stack));
+	{
+		sx(stack);
+		ft_putendl_fd("sa", 1);
+	}
+	else if (ft_lstsize(*stack) == 3)
+		sort_3(stack);
+	else
+		sort_big(stack);
+	sort_final(stack);
 }
