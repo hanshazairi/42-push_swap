@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 17:34:20 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/28 18:22:10 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,23 @@ static int	isint(char *str)
 	if (ft_atol(str) < INT_MIN || ft_atol(str) > INT_MAX)
 		return (0);
 	return (1);
+}
+
+static int	hasdup(int *nums, int len)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < len - 1)
+	{
+		j = i + 1;
+		while (j < len)
+			if (nums[i] == nums[j++])
+				return (1);
+		++i;
+	}
+	return (0);
 }
 
 static void	cleanup(t_list *stack, int *nums)
@@ -52,12 +69,14 @@ static void	error(t_list *stack, int *nums)
 
 int	main(int argc, char **argv)
 {
+	int		len;
 	int		*nums;
 	t_list	*stack;
 
 	if (argc > 1)
 	{
-		nums = malloc(sizeof(int) * (argc - 1));
+		len = argc - 1;
+		nums = malloc(sizeof(int) * len);
 		if (!nums)
 			return (0);
 		stack = 0;
@@ -68,6 +87,8 @@ int	main(int argc, char **argv)
 			nums[argc - 1] = ft_atoi(argv[argc]);
 			ft_lstadd_front(&stack, ft_lstnew(&nums[argc - 1]));
 		}
+		if (hasdup(nums, len))
+			error(stack, nums);
 		if (!issorted(stack))
 			sort(&stack);
 		cleanup(stack, nums);
