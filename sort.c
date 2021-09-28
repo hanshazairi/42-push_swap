@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:34:52 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 17:09:30 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/28 17:29:10 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	sort_big(t_list **stack_a)
 	int		b;
 	t_list	*stack_b;
 
+	stack_b = 0;
 	while (ft_lstsize(*stack_a) > 3)
 		run("pb", stack_a, &stack_b, 1);
 	if (!issorted(*stack_a))

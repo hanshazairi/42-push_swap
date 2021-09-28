@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 16:49:44 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/28 17:34:20 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(int argc, char **argv)
 		nums = malloc(sizeof(int) * (argc - 1));
 		if (!nums)
 			return (0);
+		stack = 0;
 		while (--argc)
 		{
 			if (!isint(argv[argc]))
