@@ -6,12 +6,19 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:38:36 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/27 20:02:14 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/28 15:43:12 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "push_swap.h"
+
+int	min(int a, int b)
+{
+	if (a <= b)
+		return (a);
+	return (b);
+}
 
 int	stack_min(t_list *stack)
 {
