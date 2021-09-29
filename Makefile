@@ -1,11 +1,15 @@
-NAME = push_swap
-SOURCES = $(wildcard *.c)
-OBJECTS = $(SOURCES:.c=.o)
+M_SOURCES = main.c validate.c instructions.c sort.c sort_utils.c sort_big_utils.c
+B_SOURCES = checker.c validate.c instructions.c sort_utils.c
+M_OBJECTS = $(M_SOURCES:.c=.o)
+B_OBJECTS = $(B_SOURCES:.c=.o)
 
-all: $(NAME)
+all: push_swap checker
 
-$(NAME): $(OBJECTS) libft
-	gcc -o $@ $(OBJECTS) -Llibft -lft
+push_swap: $(M_OBJECTS) libft
+	gcc -o $@ $(M_OBJECTS) -Llibft -lft
+
+checker: $(B_OBJECTS) libft
+	gcc -o $@ $(B_OBJECTS) -Llibft -lft
 
 %.o: %.c
 	gcc -c -Wall -Wextra -Werror $?
@@ -14,11 +18,11 @@ libft:
 	make bonus -C libft
 
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(M_OBJECTS) $(B_OBJECTS)
 	make -C libft clean
 
 fclean: clean
-	rm -f $(NAME) libft/libft.a
+	rm -f push_swap checker libft/libft.a
 
 re: fclean all
 

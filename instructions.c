@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:53:25 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 16:26:09 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/29 22:36:13 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,26 @@ void	rrx(t_list **stack_1, t_list **stack_2)
 void	run(char *str, t_list **stack_1, t_list **stack_2, int x)
 {
 	const int	len = ft_strlen(str);
+	int			tmp;
 	void		(*f)(t_list **, t_list **);
 
-	f = 0;
-	if (!ft_strncmp(str, "sa", len) || !ft_strncmp(str, "sb", len))
+	tmp = ft_abs(x);
+	if (!ft_strncmp(str, "sa", len) || !ft_strncmp(str, "sb", len)
+		|| !ft_strncmp(str, "ss", len))
 		f = &sx;
 	else if (!ft_strncmp(str, "pa", len) || !ft_strncmp(str, "pb", len))
 		f = &px;
 	else if (!ft_strncmp(str, "ra", len) || !ft_strncmp(str, "rb", len)
 		|| !ft_strncmp(str, "rr", len))
 		f = &rx;
-	else if (!ft_strncmp(str, "rra", len) || !ft_strncmp(str, "rrb", len)
-		|| !ft_strncmp(str, "rrr", len))
+	else
 		f = &rrx;
-	while (x--)
+	while (tmp--)
 	{
 		f(stack_1, stack_2);
 		if (stack_2 && f != px)
 			f(stack_2, 0);
-		ft_putendl_fd(str, 1);
+		if (x > 0)
+			ft_putendl_fd(str, 1);
 	}
 }
