@@ -6,16 +6,16 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/29 23:29:33 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:27:12 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft/libft.h"
-#include "checker.h"
+#include "push_swap.h"
 
-char	**getcmds(void)
+static char	**getcmds(void)
 {
 	int		i;
 	char	*buf;
@@ -78,7 +78,7 @@ static void	run_helper(char *cmd, t_list **stack_1, t_list **stack_2)
 		run(cmd, stack_2, stack_1, -1);
 }
 
-static void	sort_check(t_list **stack_a, int *nums)
+static void	sort_check(t_list **stack_a)
 {
 	int		i;
 	char	**cmds;
@@ -96,7 +96,10 @@ static void	sort_check(t_list **stack_a, int *nums)
 		}
 	}
 	else
-		error(*stack_a, nums);
+	{
+		error();
+		return ;
+	}
 	free(cmds);
 	if (issorted(*stack_a) && !ft_lstsize(stack_b))
 		ft_putendl_fd("OK", 1);
@@ -108,26 +111,25 @@ int	main(int argc, char **argv)
 {
 	int		len;
 	int		*nums;
+	char	*str;
+	char	**strs;
 	t_list	*stack;
 
 	if (argc > 1)
 	{
-		len = argc - 1;
-		nums = malloc(sizeof(int) * len);
-		if (!nums)
-			return (0);
+		str = ft_join(argv + 1, " ");
+		strs = ft_split(str, ' ');
+		free(str);
+		nums = 0;
+		len = convert(strs, &nums);
+		cleanup_1(strs);
+		if (!len)
+			error();
 		stack = 0;
-		while (--argc)
-		{
-			if (!isint(argv[argc]))
-				error(stack, nums);
-			nums[argc - 1] = ft_atoi(argv[argc]);
-			ft_lstadd_front(&stack, ft_lstnew(&nums[argc - 1]));
-		}
-		if (hasdup(nums, len))
-			error(stack, nums);
-		sort_check(&stack, nums);
-		cleanup(stack, nums);
+		while (len--)
+			ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
+		sort_check(&stack);
+		cleanup_2(stack, nums);
 	}
 	return (0);
 }

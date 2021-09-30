@@ -6,18 +6,22 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:38:36 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 15:43:12 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:15:45 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "push_swap.h"
 
-int	min(int a, int b)
+int	issorted(t_list *stack)
 {
-	if (a <= b)
-		return (a);
-	return (b);
+	while (stack->next)
+	{
+		if (*((int *)stack->content) > *((int *)stack->next->content))
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
 }
 
 int	stack_min(t_list *stack)
@@ -52,13 +56,9 @@ int	stack_max(t_list *stack)
 	return (max);
 }
 
-int	issorted(t_list *stack)
+int	min(int a, int b)
 {
-	while (stack->next)
-	{
-		if (*((int *)stack->content) > *((int *)stack->next->content))
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
+	if (a <= b)
+		return (a);
+	return (b);
 }

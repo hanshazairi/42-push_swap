@@ -6,13 +6,13 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:53:25 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/29 22:36:13 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:09:38 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
-void	sx(t_list **stack_1, t_list **stack_2)
+static void	sx(t_list **stack_1, t_list **stack_2)
 {
 	t_list	*tmp;
 
@@ -25,7 +25,7 @@ void	sx(t_list **stack_1, t_list **stack_2)
 	}
 }
 
-void	px(t_list **stack_1, t_list **stack_2)
+static void	px(t_list **stack_1, t_list **stack_2)
 {
 	t_list	*tmp;
 
@@ -37,7 +37,7 @@ void	px(t_list **stack_1, t_list **stack_2)
 	}
 }
 
-void	rx(t_list **stack_1, t_list **stack_2)
+static void	rx(t_list **stack_1, t_list **stack_2)
 {
 	t_list	*tmp;
 
@@ -51,7 +51,7 @@ void	rx(t_list **stack_1, t_list **stack_2)
 	}
 }
 
-void	rrx(t_list **stack_1, t_list **stack_2)
+static void	rrx(t_list **stack_1, t_list **stack_2)
 {
 	t_list	*last;
 	t_list	*tmp;
@@ -71,20 +71,20 @@ void	rrx(t_list **stack_1, t_list **stack_2)
 	}
 }
 
-void	run(char *str, t_list **stack_1, t_list **stack_2, int x)
+void	run(char *cmd, t_list **stack_1, t_list **stack_2, int x)
 {
-	const int	len = ft_strlen(str);
+	const int	len = ft_strlen(cmd);
 	int			tmp;
 	void		(*f)(t_list **, t_list **);
 
 	tmp = ft_abs(x);
-	if (!ft_strncmp(str, "sa", len) || !ft_strncmp(str, "sb", len)
-		|| !ft_strncmp(str, "ss", len))
+	if (!ft_strncmp(cmd, "sa", len) || !ft_strncmp(cmd, "sb", len)
+		|| !ft_strncmp(cmd, "ss", len))
 		f = &sx;
-	else if (!ft_strncmp(str, "pa", len) || !ft_strncmp(str, "pb", len))
+	else if (!ft_strncmp(cmd, "pa", len) || !ft_strncmp(cmd, "pb", len))
 		f = &px;
-	else if (!ft_strncmp(str, "ra", len) || !ft_strncmp(str, "rb", len)
-		|| !ft_strncmp(str, "rr", len))
+	else if (!ft_strncmp(cmd, "ra", len) || !ft_strncmp(cmd, "rb", len)
+		|| !ft_strncmp(cmd, "rr", len))
 		f = &rx;
 	else
 		f = &rrx;
@@ -94,6 +94,6 @@ void	run(char *str, t_list **stack_1, t_list **stack_2, int x)
 		if (stack_2 && f != px)
 			f(stack_2, 0);
 		if (x > 0)
-			ft_putendl_fd(str, 1);
+			ft_putendl_fd(cmd, 1);
 	}
 }

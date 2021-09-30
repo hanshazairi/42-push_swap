@@ -6,30 +6,16 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:34:22 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/29 19:14:50 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/30 16:51:25 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdlib.h>
 #include "libft/libft.h"
+#include "push_swap.h"
 
-int	isint(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-		++i;
-	while (str[i])
-		if (!ft_isdigit(str[i++]))
-			return (0);
-	if (ft_atol(str) < INT_MIN || ft_atol(str) > INT_MAX)
-		return (0);
-	return (1);
-}
-
-int	hasdup(int *nums, int len)
+static int	hasdup(int *nums, int len)
 {
 	int	i;
 	int	j;
@@ -46,22 +32,56 @@ int	hasdup(int *nums, int len)
 	return (0);
 }
 
-void	cleanup(t_list *stack, int *nums)
+int	convert(char **strs, int **nums)
+{
+	int	i;
+	int	ret;
+	int	*tmp;
+
+	i = 0;
+	while (strs[i])
+		if (!ft_isint(strs[i++]))
+			return (0);
+	ret = i;
+	tmp = malloc(sizeof(int) * i);
+	if (!tmp)
+		return (0);
+	while (i--)
+		tmp[i] = ft_atoi(strs[i]);
+	if (hasdup(tmp, ret))
+	{
+		free(tmp);
+		ret = 0;
+	}
+	*nums = tmp;
+	return (ret);
+}
+
+void	cleanup_1(char **strs)
+{
+	int	i;
+
+	i = 0;
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
+}
+
+void	error(void)
+{
+	ft_putendl_fd("Error", 1);
+	exit(1);
+}
+
+void	cleanup_2(t_list *stack, int *nums)
 {
 	t_list	*tmp;
 
-	free(nums);
 	while (stack)
 	{
 		tmp = stack->next;
 		free(stack);
 		stack = tmp;
 	}
-}
-
-void	error(t_list *stack, int *nums)
-{
-	ft_putstr_fd("Error\n", 2);
-	cleanup(stack, nums);
-	exit(1);
+	free(nums);
 }
