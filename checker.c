@@ -6,101 +6,58 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 17:27:12 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 00:22:19 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include "libft/libft.h"
 #include "push_swap.h"
 
-static char	**getcmds(void)
+static void	parse(char *str, t_list **stack_1, t_list **stack_2)
 {
-	int		i;
-	char	*buf;
-	char	*str;
-	char	*tmp;
+	const int	len = ft_strlen(str);
+	int			(*f)(const char *, const char *, size_t);
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (0);
-	i = read(0, buf, BUFFER_SIZE);
-	while (i > 0)
+	f = &ft_strncmp;
+	if ((len == 3 && !f(str, "rra", 3)) || (len == 2 && (!f(str, "sa", 2)
+				|| !f(str, "ra", 2))))
+		run(str, stack_1, 0, -1);
+	else if ((len == 3 && !f(str, "rrb", 3)) || (len == 2 && (!f(str, "sb", 2)
+				|| !f(str, "rb", 2))))
+		run(str, stack_2, 0, -1);
+	else if ((len == 3 && !f(str, "rrr", 3)) || (len == 2 && (!f(str, "ss", 2)
+				|| !f(str, "pb", 2) || !f(str, "rr", 2))))
+		run(str, stack_1, stack_2, -1);
+	else if (!f(str, "pa", 2))
+		run(str, stack_2, stack_1, -1);
+	else
 	{
-		buf[i] = 0;
-		if (!str)
-			str = ft_strdup(buf);
-		else
-		{
-			tmp = str;
-			str = ft_strjoin(str, buf);
-			free(tmp);
-		}
-		i = read(0, buf, BUFFER_SIZE);
+		free(str);
+		error();
 	}
-	free(buf);
-	return (ft_split(str, '\n'));
-}
-
-static int	isvalidcmd(char **cmds)
-{
-	int		len;
-	char	*cmd;
-
-	while (*cmds)
-	{
-		cmd = *cmds++;
-		len = ft_strlen(cmd);
-		if (ft_strncmp(cmd, "sa", len) && ft_strncmp(cmd, "sb", len)
-			&& ft_strncmp(cmd, "ss", len) && ft_strncmp(cmd, "pa", len)
-			&& ft_strncmp(cmd, "pb", len) && ft_strncmp(cmd, "ra", len)
-			&& ft_strncmp(cmd, "rb", len) && ft_strncmp(cmd, "rr", len)
-			&& ft_strncmp(cmd, "rra", len) && ft_strncmp(cmd, "rrb", len)
-			&& ft_strncmp(cmd, "rrr", len))
-			return (0);
-	}
-	return (1);
-}
-
-static void	run_helper(char *cmd, t_list **stack_1, t_list **stack_2)
-{	
-	if (!ft_strncmp(cmd, "rra", 3) || !ft_strncmp(cmd, "sa", 2)
-		|| !ft_strncmp(cmd, "ra", 2))
-		run(cmd, stack_1, 0, -1);
-	else if (!ft_strncmp(cmd, "rrb", 3) || !ft_strncmp(cmd, "sb", 2)
-		|| !ft_strncmp(cmd, "rb", 2))
-		run(cmd, stack_2, 0, -1);
-	else if (!ft_strncmp(cmd, "rrr", 3) || !ft_strncmp(cmd, "ss", 2)
-		|| !ft_strncmp(cmd, "pb", 2) || !ft_strncmp(cmd, "rr", 2))
-		run(cmd, stack_1, stack_2, -1);
-	else if (!ft_strncmp(cmd, "pa", 2))
-		run(cmd, stack_2, stack_1, -1);
 }
 
 static void	sort_check(t_list **stack_a)
 {
-	int		i;
-	char	**cmds;
+	char	*cmd;
 	t_list	*stack_b;
 
-	i = 0;
-	cmds = getcmds();
 	stack_b = 0;
-	if (isvalidcmd(cmds))
+	while (1)
 	{
-		while (cmds[i])
+		cmd = get_next_line();
+		if (!cmd || !ft_strlen(cmd))
+			break ;
+		if (ft_strlen(cmd) < 3 || ft_strlen(cmd) > 4)
 		{
-			run_helper(cmds[i++], stack_a, &stack_b);
-			free(cmds[i]);
+			free(cmd);
+			error();
 		}
+		cmd[ft_strlen(cmd) - 1] = 0;
+		parse(cmd, stack_a, &stack_b);
+		free(cmd);
 	}
-	else
-	{
-		error();
-		return ;
-	}
-	free(cmds);
 	if (issorted(*stack_a) && !ft_lstsize(stack_b))
 		ft_putendl_fd("OK", 1);
 	else

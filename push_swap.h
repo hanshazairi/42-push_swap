@@ -6,14 +6,14 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 19:59:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 17:16:22 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/09/30 22:48:33 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 4
 
 /* libft_utils.c */
 int		ft_isint(char *str);
@@ -42,5 +42,8 @@ int		stack_idx_minmax(t_list *stack, int num);
 void	find_min_rotate(t_list *stack_a, t_list *stack_b, int *a, int *b);
 void	rotate_same(t_list **stack_a, t_list **stack_b, int a, int b);
 void	rotate_diff(t_list **stack_a, t_list **stack_b, int a, int b);
+
+/* get_next_line.c */
+char	*get_next_line(void);
 
 #endif

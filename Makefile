@@ -1,5 +1,9 @@
-M_SOURCES = push_swap.c libft_utils.c validate.c instructions.c sort.c sort_utils.c sort_big_utils.c
-B_SOURCES = checker.c libft_utils.c validate.c instructions.c sort_utils.c
+M_SOURCES = \
+	push_swap.c libft_utils.c validate.c instructions.c sort.c sort_utils.c \
+	sort_big_utils.c
+B_SOURCES = \
+	checker.c libft_utils.c validate.c instructions.c sort_utils.c \
+	get_next_line.c
 M_OBJECTS = $(M_SOURCES:.c=.o)
 B_OBJECTS = $(B_SOURCES:.c=.o)
 
