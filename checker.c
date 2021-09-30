@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 00:22:19 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 00:55:07 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 #include "push_swap.h"
 
-static void	parse(char *str, t_list **stack_1, t_list **stack_2)
+static void	parse(char *str, t_list **stack_1, t_list **stack_2, int *nums)
 {
 	const int	len = ft_strlen(str);
 	int			(*f)(const char *, const char *, size_t);
@@ -34,11 +34,12 @@ static void	parse(char *str, t_list **stack_1, t_list **stack_2)
 	else
 	{
 		free(str);
+		cleanup_2(*stack_1, nums);
 		error();
 	}
 }
 
-static void	sort_check(t_list **stack_a)
+static void	sort_check(t_list **stack_a, int *nums)
 {
 	char	*cmd;
 	t_list	*stack_b;
@@ -47,15 +48,17 @@ static void	sort_check(t_list **stack_a)
 	while (1)
 	{
 		cmd = get_next_line();
+		if (!cmd || ft_strlen(cmd) < 3 || ft_strlen(cmd) > 4)
+			free(cmd);
 		if (!cmd || !ft_strlen(cmd))
 			break ;
 		if (ft_strlen(cmd) < 3 || ft_strlen(cmd) > 4)
 		{
-			free(cmd);
+			cleanup_2(*stack_a, nums);
 			error();
 		}
 		cmd[ft_strlen(cmd) - 1] = 0;
-		parse(cmd, stack_a, &stack_b);
+		parse(cmd, stack_a, &stack_b, nums);
 		free(cmd);
 	}
 	if (issorted(*stack_a) && !ft_lstsize(stack_b))
@@ -85,7 +88,7 @@ int	main(int argc, char **argv)
 		stack = 0;
 		while (len--)
 			ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
-		sort_check(&stack);
+		sort_check(&stack, nums);
 		cleanup_2(stack, nums);
 	}
 	return (0);
