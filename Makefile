@@ -1,19 +1,21 @@
-M_SOURCES = \
+NAME = push_swap
+BNAME = checker
+SOURCES = \
 	push_swap.c libft_utils.c validate.c instructions.c sort.c sort_utils.c \
 	sort_big_utils.c
-B_SOURCES = \
+BSOURCES = \
 	checker.c libft_utils.c validate.c instructions.c sort_utils.c \
 	get_next_line.c
-M_OBJECTS = $(M_SOURCES:.c=.o)
-B_OBJECTS = $(B_SOURCES:.c=.o)
+OBJECTS = $(SOURCES:.c=.o)
+BOBJECTS = $(BSOURCES:.c=.o)
 
-all: push_swap checker
+all: $(NAME)
 
-push_swap: $(M_OBJECTS) libft
-	gcc -o $@ $(M_OBJECTS) -Llibft -lft
+$(NAME): $(OBJECTS) libft
+	gcc -o $@ $(OBJECTS) -Llibft -lft
 
-checker: $(B_OBJECTS) libft
-	gcc -o $@ $(B_OBJECTS) -Llibft -lft
+bonus: $(BOBJECTS) libft
+	gcc -o $(BNAME) $(BOBJECTS) -Llibft -lft
 
 %.o: %.c
 	gcc -c -Wall -Wextra -Werror $?
@@ -22,11 +24,11 @@ libft:
 	make bonus -C libft
 
 clean:
-	rm -f $(M_OBJECTS) $(B_OBJECTS)
+	rm -f $(OBJECTS) $(BOBJECTS)
 	make -C libft clean
 
 fclean: clean
-	rm -f push_swap checker libft/libft.a
+	rm -f $(NAME) $(BNAME) libft/libft.a
 
 re: fclean all
 
