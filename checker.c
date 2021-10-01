@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 14:12:18 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:21:29 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	sort_check(t_list **stack_a)
 			free(cmd);
 			return ;
 		}
+		free(cmd);
 	}
 	if (issorted(*stack_a) && !ft_lstsize(stack_b))
 		ft_putendl_fd("OK", 1);
