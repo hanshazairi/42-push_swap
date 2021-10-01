@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:34:22 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 14:11:44 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:04:54 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,32 @@ int	convert(char **strs, int **nums)
 	return (ret);
 }
 
-void	cleanup_1(char **strs)
+void	check(char **argv)
 {
 	int	i;
 
 	i = 0;
+	while (argv[i])
+		if (!ft_strlen(argv[i++]))
+			ft_error(1);
+}
+
+void	cleanup_1(char *str, char **strs)
+{
+	int	i;
+
+	i = 0;
+	free(str);
 	while (strs[i])
 		free(strs[i++]);
 	free(strs);
 }
 
-int	error(int status)
-{
-	ft_putendl_fd("Error", 1);
-	if (status)
-		exit(status);
-	return (status);
-}
-
-void	cleanup_2(t_list *stack)
+void	cleanup_2(int *nums, t_list *stack)
 {
 	t_list	*tmp;
 
+	free(nums);
 	while (stack)
 	{
 		tmp = stack->next;

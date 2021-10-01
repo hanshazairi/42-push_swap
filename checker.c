@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 14:21:29 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:05:28 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 
 	len = ft_strlen(str);
 	if (len < 3 || len > 4)
-		return (error(0));
+		return (ft_error(0));
 	str[len - 1] = 0;
 	len = ft_strlen(str);
 	f = &ft_strncmp;
@@ -37,7 +37,7 @@ static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 	else if (!f(str, "pa", 2))
 		run(str, stack_2, stack_1, -1);
 	else
-		return (error(0));
+		return (ft_error(0));
 	return (1);
 }
 
@@ -80,20 +80,19 @@ int	main(int argc, char **argv)
 
 	if (argc > 1)
 	{
+		check(argv + 1);
 		str = ft_join(argv + 1, " ");
 		strs = ft_split(str, ' ');
-		free(str);
 		nums = 0;
 		len = convert(strs, &nums);
-		cleanup_1(strs);
+		cleanup_1(str, strs);
 		if (!len)
-			error(1);
+			ft_error(1);
 		stack = 0;
 		while (len--)
 			ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
 		sort_check(&stack);
-		free(nums);
-		cleanup_2(stack);
+		cleanup_2(nums, stack);
 	}
 	return (0);
 }

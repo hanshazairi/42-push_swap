@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 19:59:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 14:12:38 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:05:12 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 # define BUFFER_SIZE 5
 
 /* libft_utils.c */
+int		ft_error(int status);
 int		ft_isint(char *str);
 char	*ft_join(char **strs, char *sep);
 
 /* validate.c */
-int		error(int status);
 int		convert(char **strs, int **nums);
-void	cleanup_1(char **strs);
-void	cleanup_2(t_list *stack);
+void	check(char **argv);
+void	cleanup_1(char *str, char **strs);
+void	cleanup_2(int *nums, t_list *stack);
 
 /* instructions.c */
 void	run(char *str, t_list **stack_1, t_list **stack_2, int x);

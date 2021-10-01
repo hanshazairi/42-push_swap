@@ -6,13 +6,21 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 01:38:20 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 16:50:44 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 17:04:05 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdlib.h>
 #include "libft/libft.h"
+
+int	ft_error(int status)
+{
+	ft_putendl_fd("Error", 1);
+	if (status)
+		exit(status);
+	return (status);
+}
 
 int	ft_isint(char *str)
 {
