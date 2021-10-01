@@ -6,24 +6,24 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 19:59:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 22:48:33 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:12:38 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# define BUFFER_SIZE 4
+# define BUFFER_SIZE 5
 
 /* libft_utils.c */
 int		ft_isint(char *str);
 char	*ft_join(char **strs, char *sep);
 
 /* validate.c */
+int		error(int status);
 int		convert(char **strs, int **nums);
 void	cleanup_1(char **strs);
-void	error(void);
-void	cleanup_2(t_list *stack, int *nums);
+void	cleanup_2(t_list *stack);
 
 /* instructions.c */
 void	run(char *str, t_list **stack_1, t_list **stack_2, int x);
@@ -44,6 +44,6 @@ void	rotate_same(t_list **stack_a, t_list **stack_b, int a, int b);
 void	rotate_diff(t_list **stack_a, t_list **stack_b, int a, int b);
 
 /* get_next_line.c */
-char	*get_next_line(void);
+char	*get_next_line(char **factory);
 
 #endif

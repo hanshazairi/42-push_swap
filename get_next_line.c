@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 00:22:02 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 12:58:06 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,13 @@ static char	*gnl_process(char **factory)
 	return (ret);
 }
 
-char	*get_next_line(void)
+char	*get_next_line(char **factory)
 {
 	char		*buf;
-	static char	*factory;
 
 	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
 		return (0);
-	gnl_read(buf, &factory);
-	return (gnl_process(&factory));
+	gnl_read(buf, factory);
+	return (gnl_process(factory));
 }

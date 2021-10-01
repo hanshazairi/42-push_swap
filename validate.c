@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:34:22 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 16:51:25 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:11:44 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,15 @@ void	cleanup_1(char **strs)
 	free(strs);
 }
 
-void	error(void)
+int	error(int status)
 {
 	ft_putendl_fd("Error", 1);
-	exit(1);
+	if (status)
+		exit(status);
+	return (status);
 }
 
-void	cleanup_2(t_list *stack, int *nums)
+void	cleanup_2(t_list *stack)
 {
 	t_list	*tmp;
 
@@ -83,5 +85,4 @@ void	cleanup_2(t_list *stack, int *nums)
 		free(stack);
 		stack = tmp;
 	}
-	free(nums);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 11:17:50 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 16:58:30 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:12:00 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ int	main(int argc, char **argv)
 		len = convert(strs, &nums);
 		cleanup_1(strs);
 		if (!len)
-			error();
+			error(1);
 		stack = 0;
 		while (len--)
 			ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
 		if (!issorted(stack))
 			sort(&stack);
-		cleanup_2(stack, nums);
+		free(nums);
+		cleanup_2(stack);
 	}
 	return (0);
 }

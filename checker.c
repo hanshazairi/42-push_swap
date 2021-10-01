@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 00:55:07 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:12:18 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 #include "libft/libft.h"
 #include "push_swap.h"
 
-static void	parse(char *str, t_list **stack_1, t_list **stack_2, int *nums)
+static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 {
-	const int	len = ft_strlen(str);
-	int			(*f)(const char *, const char *, size_t);
+	int	len;
+	int	(*f)(const char *, const char *, size_t);
 
+	len = ft_strlen(str);
+	if (len < 3 || len > 4)
+		return (error(0));
+	str[len - 1] = 0;
+	len = ft_strlen(str);
 	f = &ft_strncmp;
 	if ((len == 3 && !f(str, "rra", 3)) || (len == 2 && (!f(str, "sa", 2)
 				|| !f(str, "ra", 2))))
@@ -32,34 +37,31 @@ static void	parse(char *str, t_list **stack_1, t_list **stack_2, int *nums)
 	else if (!f(str, "pa", 2))
 		run(str, stack_2, stack_1, -1);
 	else
-	{
-		free(str);
-		cleanup_2(*stack_1, nums);
-		error();
-	}
+		return (error(0));
+	return (1);
 }
 
-static void	sort_check(t_list **stack_a, int *nums)
+static void	sort_check(t_list **stack_a)
 {
-	char	*cmd;
-	t_list	*stack_b;
+	static char	*factory;
+	char		*cmd;
+	t_list		*stack_b;
 
 	stack_b = 0;
 	while (1)
 	{
-		cmd = get_next_line();
-		if (!cmd || ft_strlen(cmd) < 3 || ft_strlen(cmd) > 4)
-			free(cmd);
+		cmd = get_next_line(&factory);
 		if (!cmd || !ft_strlen(cmd))
-			break ;
-		if (ft_strlen(cmd) < 3 || ft_strlen(cmd) > 4)
 		{
-			cleanup_2(*stack_a, nums);
-			error();
+			free(cmd);
+			break ;
 		}
-		cmd[ft_strlen(cmd) - 1] = 0;
-		parse(cmd, stack_a, &stack_b, nums);
-		free(cmd);
+		if (!parse(cmd, stack_a, &stack_b))
+		{
+			free(factory);
+			free(cmd);
+			return ;
+		}
 	}
 	if (issorted(*stack_a) && !ft_lstsize(stack_b))
 		ft_putendl_fd("OK", 1);
@@ -84,12 +86,13 @@ int	main(int argc, char **argv)
 		len = convert(strs, &nums);
 		cleanup_1(strs);
 		if (!len)
-			error();
+			error(1);
 		stack = 0;
 		while (len--)
 			ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
-		sort_check(&stack, nums);
-		cleanup_2(stack, nums);
+		sort_check(&stack);
+		free(nums);
+		cleanup_2(stack);
 	}
 	return (0);
 }
