@@ -1,6 +1,7 @@
 # 42cursus - push_swap
 
 ![](https://github.com/hanshazairi/42-push_swap/workflows/norminette/badge.svg)
+![](https://github.com/hanshazairi/42-push_swap/workflows/build/badge.svg)
 ![](https://img.shields.io/tokei/lines/github/hanshazairi/42-push_swap?style=plastic?color=blue)
 
 ## Project Information
