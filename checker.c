@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/11/24 20:49:48 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/11/25 00:29:48 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	ps_free(char **strs)
 	free(strs);
 }
 
-static void	ps_error(void)
+static int	ps_error(void)
 {
 	ft_putendl_fd("Error", 2);
-	exit(1);
+	return (1);
 }
 
 static int	parse(char *str, t_list **stack_1, t_list **stack_2)
@@ -37,7 +37,7 @@ static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 
 	len = ft_strlen(str);
 	if (len < 3 || len > 4)
-		ps_error();
+		return (ps_error());
 	str[len - 1] = 0;
 	len = ft_strlen(str);
 	f = &ft_strncmp;
@@ -53,8 +53,8 @@ static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 	else if (!f(str, "pa", 2))
 		run(str, stack_2, stack_1, -1);
 	else
-		ps_error();
-	return (1);
+		return (ps_error());
+	return (0);
 }
 
 static void	sort_check(t_list **stack_a)
@@ -72,7 +72,7 @@ static void	sort_check(t_list **stack_a)
 			free(cmd);
 			break ;
 		}
-		if (!parse(cmd, stack_a, &stack_b))
+		if (parse(cmd, stack_a, &stack_b))
 		{
 			free(str);
 			free(cmd);
