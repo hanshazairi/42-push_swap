@@ -6,25 +6,25 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 19:28:39 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 17:08:39 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:58:16 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
+#include "libft/libft.h"
 
 static int	stack_idx_mid(t_list *stack, int num)
 {
-	const int	size = ft_lstsize(stack);
-	int			ret;
 	int			current;
 	int			next;
+	int			ret;
+	const int	size = ft_lstsize(stack);
 
 	ret = 1;
 	while (stack->next)
 	{
-		current = *((int *)stack->content);
-		next = *((int *)stack->next->content);
+		current = ft_atoi(stack->content);
+		next = ft_atoi(stack->next->content);
 		if (num > current && num < next)
 			break ;
 		++ret;
@@ -39,9 +39,9 @@ static int	stack_idx_mid(t_list *stack, int num)
 
 int	stack_idx_minmax(t_list *stack, int num)
 {
-	const int	size = ft_lstsize(stack);
 	int			ret;
 	int			x;
+	const int	size = ft_lstsize(stack);
 
 	ret = 0;
 	x = stack_max(stack);
@@ -51,7 +51,7 @@ int	stack_idx_minmax(t_list *stack, int num)
 		++ret;
 	while (stack)
 	{
-		if (*((int *)stack->content) == x)
+		if (ft_atoi(stack->content) == x)
 			break ;
 		++ret;
 		stack = stack->next;
@@ -61,18 +61,18 @@ int	stack_idx_minmax(t_list *stack, int num)
 	return (ret);
 }
 
-void	find_min_rotate(t_list *stack_a, t_list *stack_b, int *a, int *b)
+void	get_min_rotate(t_list *stack_a, t_list *stack_b, int *a, int *b)
 {
-	const int	size_b = ft_lstsize(stack_b);
 	int			i;
 	int			j;
 	int			num;
 	int			x;
+	const int	size_b = ft_lstsize(stack_b);
 
 	x = -1;
 	while (stack_b && ++x >= 0)
 	{
-		num = *((int *)stack_b->content);
+		num = ft_atoi(stack_b->content);
 		if (num < stack_min(stack_a) || num > stack_max(stack_a))
 			i = stack_idx_minmax(stack_a, num);
 		else

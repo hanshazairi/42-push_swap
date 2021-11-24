@@ -6,7 +6,7 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:53:25 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/30 17:09:38 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/11/24 19:39:22 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static void	rrx(t_list **stack_1, t_list **stack_2)
 
 void	run(char *cmd, t_list **stack_1, t_list **stack_2, int x)
 {
-	const int	len = ft_strlen(cmd);
 	int			tmp;
 	void		(*f)(t_list **, t_list **);
+	const int	len = ft_strlen(cmd);
 
 	tmp = ft_abs(x);
 	if (!ft_strncmp(cmd, "sa", len) || !ft_strncmp(cmd, "sb", len)

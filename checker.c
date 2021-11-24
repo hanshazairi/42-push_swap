@@ -6,13 +6,29 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 17:05:28 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:49:48 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft/libft.h"
 #include "push_swap.h"
+#include "libft/libft.h"
+
+static void	ps_free(char **strs)
+{
+	int	i;
+
+	i = 0;
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
+}
+
+static void	ps_error(void)
+{
+	ft_putendl_fd("Error", 2);
+	exit(1);
+}
 
 static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 {
@@ -21,7 +37,7 @@ static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 
 	len = ft_strlen(str);
 	if (len < 3 || len > 4)
-		return (ft_error(0));
+		ps_error();
 	str[len - 1] = 0;
 	len = ft_strlen(str);
 	f = &ft_strncmp;
@@ -37,20 +53,20 @@ static int	parse(char *str, t_list **stack_1, t_list **stack_2)
 	else if (!f(str, "pa", 2))
 		run(str, stack_2, stack_1, -1);
 	else
-		return (ft_error(0));
+		ps_error();
 	return (1);
 }
 
 static void	sort_check(t_list **stack_a)
 {
-	static char	*factory;
 	char		*cmd;
 	t_list		*stack_b;
+	static char	*str;
 
 	stack_b = 0;
 	while (1)
 	{
-		cmd = get_next_line(&factory);
+		cmd = get_next_line(&str);
 		if (!cmd || !ft_strlen(cmd))
 		{
 			free(cmd);
@@ -58,13 +74,13 @@ static void	sort_check(t_list **stack_a)
 		}
 		if (!parse(cmd, stack_a, &stack_b))
 		{
-			free(factory);
+			free(str);
 			free(cmd);
 			return ;
 		}
 		free(cmd);
 	}
-	if (issorted(*stack_a) && !ft_lstsize(stack_b))
+	if (is_sorted(*stack_a) && !ft_lstsize(stack_b))
 		ft_putendl_fd("OK", 1);
 	else
 		ft_putendl_fd("KO", 1);
@@ -73,26 +89,25 @@ static void	sort_check(t_list **stack_a)
 int	main(int argc, char **argv)
 {
 	int		len;
-	int		*nums;
-	char	*str;
 	char	**strs;
 	t_list	*stack;
 
 	if (argc > 1)
 	{
-		check(argv + 1);
-		str = ft_join(argv + 1, " ");
-		strs = ft_split(str, ' ');
-		nums = 0;
-		len = convert(strs, &nums);
-		cleanup_1(str, strs);
-		if (!len)
-			ft_error(1);
+		strs = 0;
+		len = split_argv(&strs, argv + 1, " ");
+		if (!len || !is_valid(strs))
+		{
+			ps_free(strs);
+			ft_putendl_fd("Error", 2);
+			return (1);
+		}
 		stack = 0;
 		while (len--)
-			ft_lstadd_front(&stack, ft_lstnew(&nums[len]));
+			ft_lstadd_front(&stack, ft_lstnew(strs[len]));
 		sort_check(&stack);
-		cleanup_2(nums, stack);
+		ft_lstclear(&stack, free);
+		free(strs);
 	}
 	return (0);
 }

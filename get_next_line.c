@@ -6,32 +6,32 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 16:46:56 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/10/01 12:58:06 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:06:44 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "libft/libft.h"
 #include "push_swap.h"
+#include "libft/libft.h"
 
-static void	gnl_read(char *buf, char **factory)
+static void	gnl_read(char *buf, char **str)
 {
 	int		i;
 	char	*tmp;
 
-	if (!*factory || !ft_strchr(*factory, '\n'))
+	if (!*str || !ft_strchr(*str, '\n'))
 	{
 		i = read(0, buf, BUFFER_SIZE);
 		while (i > 0)
 		{
 			buf[i] = 0;
-			if (!*factory)
-				*factory = ft_strdup(buf);
+			if (!*str)
+				*str = ft_strdup(buf);
 			else
 			{
-				tmp = *factory;
-				*factory = ft_strjoin(*factory, buf);
+				tmp = *str;
+				*str = ft_strjoin(*str, buf);
 				free(tmp);
 			}
 			if (ft_strchr(buf, '\n'))
@@ -42,38 +42,38 @@ static void	gnl_read(char *buf, char **factory)
 	free(buf);
 }
 
-static char	*gnl_process(char **factory)
+static char	*gnl_process(char **str)
 {
 	int		i;
 	int		j;
 	char	*ret;
 	char	*tmp;
 
-	if (!*factory)
+	if (!*str)
 		return (0);
-	if (!ft_strchr(*factory, '\n'))
+	if (!ft_strchr(*str, '\n'))
 	{
-		ret = ft_strdup(*factory);
-		free(*factory);
-		*factory = 0;
+		ret = ft_strdup(*str);
+		free(*str);
+		*str = 0;
 		return (ret);
 	}
-	i = ft_strlen(*factory);
-	j = ft_strlen(ft_strchr(*factory, '\n'));
-	ret = ft_substr(*factory, 0, i - j + 1);
-	tmp = *factory;
-	*factory = ft_substr(ft_strchr(*factory, '\n'), 1, j);
+	i = ft_strlen(*str);
+	j = ft_strlen(ft_strchr(*str, '\n'));
+	ret = ft_substr(*str, 0, i - j + 1);
+	tmp = *str;
+	*str = ft_substr(ft_strchr(*str, '\n'), 1, j - 1);
 	free(tmp);
 	return (ret);
 }
 
-char	*get_next_line(char **factory)
+char	*get_next_line(char **str)
 {
-	char		*buf;
+	char	*buf;
 
-	buf = malloc(BUFFER_SIZE + 1);
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (0);
-	gnl_read(buf, factory);
-	return (gnl_process(factory));
+	gnl_read(buf, str);
+	return (gnl_process(str));
 }

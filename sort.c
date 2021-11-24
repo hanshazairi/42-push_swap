@@ -6,18 +6,18 @@
 /*   By: hbaddrul <hbaddrul@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 20:34:52 by hbaddrul          #+#    #+#             */
-/*   Updated: 2021/09/28 17:29:10 by hbaddrul         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:58:52 by hbaddrul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
+#include "libft/libft.h"
 
 static void	sort_3(t_list **stack)
 {
-	const int	num_1 = *((int *)(*stack)->content);
-	const int	num_2 = *((int *)(*stack)->next->content);
-	const int	num_3 = *((int *)(*stack)->next->next->content);
+	const int	num_1 = ft_atoi((*stack)->content);
+	const int	num_2 = ft_atoi((*stack)->next->content);
+	const int	num_3 = ft_atoi((*stack)->next->next->content);
 
 	if (num_1 == stack_min(*stack) && num_2 == stack_max(*stack))
 	{
@@ -46,13 +46,13 @@ static void	sort_big(t_list **stack_a)
 	stack_b = 0;
 	while (ft_lstsize(*stack_a) > 3)
 		run("pb", stack_a, &stack_b, 1);
-	if (!issorted(*stack_a))
+	if (!is_sorted(*stack_a))
 		sort_3(stack_a);
 	while (ft_lstsize(stack_b))
 	{
 		a = 0;
 		b = 0;
-		find_min_rotate(*stack_a, stack_b, &a, &b);
+		get_min_rotate(*stack_a, stack_b, &a, &b);
 		if ((a >= 0 && b >= 0) || (a < 0 && b < 0))
 			rotate_same(stack_a, &stack_b, a, b);
 		else
